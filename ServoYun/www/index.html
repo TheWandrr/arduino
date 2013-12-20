@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta id="viewport" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>ServoControl</title>
+<link rel="stylesheet" type="text/css" href="media/css/bootstrap.min.css"></link>
+<link rel="stylesheet" type="text/css" href="media/css/font-awesome.min.css"></link>
+<script type="text/javascript" src="media/js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="media/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="media/js/handlebars-1.1.2.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    var fetching = false;
+
+    var _open = Handlebars.compile($("#open").html());
+    var _closed = Handlebars.compile($("#closed").html());
+
+    $(document).on("click", "a.ajax", function(e) {
+        e.preventDefault();
+        if ( ! fetching) {
+            var $a = $(e.target);
+            fetching = true;
+            $.ajax({
+                type: "GET",
+                url: $a.attr("href"),
+                success: function(response) {
+                    var html;
+                    if (response.indexOf("open") > 0) {
+                        html = _open(response);
+                    } else {
+                        html = _closed(response);
+                    }
+                    $("#button").html(html);
+                    $("#feedback").html(response);
+                    fetching = false;
+                }
+            });
+        }
+    });
+    $("#button").html(_closed());
+});
+</script>
+</head>
+<body>
+<script id="open" type="text/x-handlebars-template">
+<a class="btn btn-success ajax" href="/arduino/servo/close"><i class="fa fa-unlock-alt"></i> Open</a>
+</script>
+<script id="closed" type="text/x-handlebars-template">
+<a class="btn btn-danger ajax" href="/arduino/servo/open"><i class="fa fa-lock"></i> Closed</a>
+</script>
+<div id="button"></div>
+<div id="feedback"></div>
+</body>
+</html>
