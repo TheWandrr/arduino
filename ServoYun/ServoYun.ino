@@ -35,8 +35,7 @@ void loop() {
   }
   
   s += "Servo: " + String(servoVal);
-  myservo.write(servoVal);
-
+  
   int sensorValue = analogRead(A0);
   float voltage = sensorValue * (5.0 / 1023.0);
   s += "\tVoltage: " + String(voltage);
@@ -55,11 +54,12 @@ void process(YunClient client) {
 
 void setServo(int value) {
   servoVal = value;
+  myservo.write(servoVal);
 }
 
 void setServo(String command) {
   if (command == "open") {
-    setServo(180);
+    setServo(160);
   } else if (command == "close") {
     setServo(0);
   }

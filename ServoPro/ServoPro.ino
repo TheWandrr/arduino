@@ -42,16 +42,16 @@ void loop() {
     char inChar = Serial.read();
     process(inChar);
   }
-  myservo.write(servoVal);
 }
 
 void setServo(int value) {
   servoVal = value;
+  myservo.write(servoVal);
 }
 
 void setServo(String command) {
   if (command == "open") {
-    setServo(170);
+    setServo(160);
   } else if (command == "close") {
     setServo(0);
   }
