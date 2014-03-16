@@ -1,12 +1,13 @@
 #include <Servo.h>
 
 Servo myservo;
+int servoPin = 9;
 int pos = 0;
 int max_pos = 160;
 int step_by = 1;
 
 void setup() {
-  myservo.attach(9);  // attaches the servo on pin 9 to the servo object
+  myservo.attach(servoPin);  // attaches the servo on pin 9 to the servo object
 }
 
 
